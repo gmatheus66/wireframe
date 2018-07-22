@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">wireframe</string>
     <string name="title_activity_guideline">Guideline</string>
+    <string name="funcao_indisponivel">Esta funcionalidade ainda não está disponível</string>
 </resources>

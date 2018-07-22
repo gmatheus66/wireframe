@@ -45,13 +45,14 @@
             android:id="@+id/botaoJogar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="clicouJogar"
+            android:onClick="jogar"
             android:text="Jogar" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/botaoJogarFacebook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="loginFacebook"
             android:text="Login com Facebook" />
     </LinearLayout>
 
@@ -76,10 +77,11 @@
             android:text="VOLUME" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/botaoSair"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="sair"
             android:text="SAIR" />
     </LinearLayout>
 

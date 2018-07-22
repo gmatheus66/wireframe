@@ -13,8 +13,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void clicouJogar(View view){
+    public void jogar(View view){
         Intent intent = new Intent(this, Carregando.class);
         startActivity(intent);
+    }
+
+    public  void loginFacebook (View view){
+        Intent intent = new Intent(this, LoginFacebook.class);
+        startActivity(intent);
+    }
+
+    public void sair (View view) {
+        this.finish();
     }
 }

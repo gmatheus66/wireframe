@@ -16,6 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Acertou" />
+        <activity android:name=".Carregando" />
+        <activity android:name=".JogoNivel1" />
+        <activity android:name=".MenuNiveis" />
+        <activity android:name=".LoginFacebook" />
     </application>
 
 </manifest>
