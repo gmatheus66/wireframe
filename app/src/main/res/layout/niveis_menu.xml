@@ -123,18 +123,21 @@
             android:id="@+id/button2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="nivelFacil"
             android:text="Fácil" />
 
         <Button
             android:id="@+id/button3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="nivelMedio"
             android:text="Médio" />
 
         <Button
             android:id="@+id/button4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="nivelDificil"
             android:text="Difícil" />
 
     </LinearLayout>
@@ -164,6 +167,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="sair"
             android:text="SAIR" />
     </LinearLayout>
 

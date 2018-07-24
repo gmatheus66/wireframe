@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void jogar(View view){
-        Intent intent = new Intent(this, Carregando.class);
+        Intent intent = new Intent(this, MenuNiveis.class);
         startActivity(intent);
     }
 
