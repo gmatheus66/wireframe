@@ -23,7 +23,7 @@ public class Carregando extends AppCompatActivity {
     Intent intent = getIntent();
 
     private void comecarJogo(){
-        Intent intent = new Intent(this, JogoNivel1.class);
+        Intent intent = new Intent(this, Jogar.class);
         startActivity(intent);
         finish();
     }

@@ -21,6 +21,7 @@
         <activity android:name=".JogoNivel1" />
         <activity android:name=".MenuNiveis" />
         <activity android:name=".LoginFacebook" />
+        <activity android:name=".Jogar"></activity>
     </application>
 
 </manifest>
