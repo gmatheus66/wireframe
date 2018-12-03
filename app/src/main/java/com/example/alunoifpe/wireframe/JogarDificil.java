@@ -4,16 +4,13 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
@@ -21,51 +18,59 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Jogar extends AppCompatActivity implements View.OnClickListener {
+public class JogarDificil extends AppCompatActivity implements View.OnClickListener {
 
-    private TableLayout game;
     private ImageButton oldCardButton;
     public Estado estado;
     public int resources[] = new int[]{
             R.mipmap.calunga,
             R.mipmap.capela_bjesus,
             R.mipmap.capela_rosario,
-            R.mipmap.cosme_damiao,
+            R.mipmap.comes_damiao,
             R.mipmap.coroa_aviao,
             R.mipmap.refugio,
             R.mipmap.sitio_marcos,
             R.mipmap.velho_faceta
     };
-
-
+    /**
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_jogar);
+        setContentView(R.layout.activity_dificil_jogar);
 
         estado = Estado.NAO_VIRADA;
-        game = (TableLayout) findViewById(R.id.game);
-        //game.setColumnCount(4);
+        TableLayout table = findViewById(R.id.tableLayout);
+        table.removeAllViews();
 
         final int NUMBER_OF_CARDS = this.resources.length * 2;
 
         ArrayList<ImageButton> cards;
         cards = new ArrayList<>(NUMBER_OF_CARDS);
 
-        for (int i = 0; i < NUMBER_OF_CARDS; i++) {
-            ImageButton btn = new ImageButton(this);
-            btn.setImageResource(R.mipmap.ic_costas);
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(170, 170);
-            btn.setLayoutParams(layoutParams);
-            btn.setOnClickListener((View.OnClickListener) this);
-            btn.setTag(new CardInfo(resources[i % 8]));
-            cards.add(btn);
+        for(int i = 0; i < 4; i++) {
+            TableRow row = new TableRow(JogarDificil.this);
+            for(int j = 0; j < 4; j++) {
+                ImageButton image = new ImageButton(JogarDificil.this);
+                image.setImageResource(R.mipmap.ic_costas);
+                image.setAdjustViewBounds(true);
+                image.setOnClickListener(this);
+                image.setTag(new CardInfo(resources[i + j]));
+                //image.setGravity(Gravity.CENTER);
+                row.addView(image);
+            }
+
+            table.addView(row);
         }
+
+        table.setStretchAllColumns(true);
+        table.setGravity(Gravity.CENTER);
 
         Collections.shuffle(cards);
 
-        for(ImageButton button : cards){
-            game.addView(button);
+        for(ImageButton image : cards){
+            table.addView(image);
         }
     }
 

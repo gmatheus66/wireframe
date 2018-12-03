@@ -18,10 +18,11 @@
         </activity>
         <activity android:name=".Acertou" />
         <activity android:name=".Carregando" />
-        <activity android:name=".JogoNivel1" />
         <activity android:name=".MenuNiveis" />
         <activity android:name=".LoginFacebook" />
-        <activity android:name=".Jogar"></activity>
+        <activity android:name=".JogarDificil" />
+        <activity android:name=".JogarFacil" />
+        <activity android:name=".JogarMedio"></activity>
     </application>
 
 </manifest>

@@ -12,19 +12,29 @@ public class Carregando extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.carregando);
         Handler handler = new Handler();
+        Intent intent = getIntent();
+        final String nivel = intent.getStringExtra("nivel");
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                comecarJogo();
+                comecarJogo(nivel);
             }
         }, 2000);
     }
 
-    Intent intent = getIntent();
-
-    private void comecarJogo(){
-        Intent intent = new Intent(this, Jogar.class);
-        startActivity(intent);
-        finish();
+    private void comecarJogo(String nivel) {
+        if (nivel.equals("facil")) {
+            Intent intent = new Intent(this, JogarFacil.class);
+            startActivity(intent);
+            finish();
+        } else if (nivel.equals("medio")) {
+            Intent intent = new Intent(this, JogarMedio.class);
+            startActivity(intent);
+            finish();
+        } else {
+            Intent intent = new Intent(this, JogarDificil.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }

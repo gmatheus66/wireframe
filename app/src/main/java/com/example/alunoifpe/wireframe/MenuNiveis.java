@@ -16,17 +16,23 @@ public class MenuNiveis extends AppCompatActivity {
     Intent intent = getIntent();
 
     public void nivelFacil(View view){
+        //String nivel = "facil";
         Intent intent = new Intent(this, Carregando.class);
+        intent.putExtra("nivel", "facil");
         startActivity(intent);
     }
 
     public void nivelMedio(View view){
+        //String nivel = "medio";
         Intent intent = new Intent(this, Carregando.class);
+        intent.putExtra("nivel", "medio");
         startActivity(intent);
     }
 
     public void nivelDificil(View view){
+        //String nivel = "dificil";
         Intent intent = new Intent(this, Carregando.class);
+        intent.putExtra("nivel", "dificil");
         startActivity(intent);
     }
 
