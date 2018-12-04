@@ -25,8 +25,7 @@ public class JogarFacil extends AppCompatActivity implements View.OnClickListene
     public int resources[] = new int[]{
             R.mipmap.capela_bjesus,
             R.mipmap.capela_rosario,
-            R.mipmap.comes_damiao,
-
+            R.mipmap.comes_damiao
     };
     /**
      * @param savedInstanceState
@@ -52,7 +51,7 @@ public class JogarFacil extends AppCompatActivity implements View.OnClickListene
                 image.setImageResource(R.mipmap.ic_costas);
                 image.setAdjustViewBounds(true);
                 image.setOnClickListener(this);
-                image.setTag(new CardInfo(resources[i]));
+                image.setTag(new CardInfo(resources[j]));
                 //image.setGravity(Gravity.CENTER);
                 row.addView(image);
             }
@@ -145,10 +144,5 @@ public class JogarFacil extends AppCompatActivity implements View.OnClickListene
                 toast.show();
             }
         }
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
     }
 }
