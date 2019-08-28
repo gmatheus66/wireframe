@@ -23,18 +23,9 @@ public class Carregando extends AppCompatActivity {
     }
 
     private void comecarJogo(String nivel) {
-        if (nivel.equals("facil")) {
-            Intent intent = new Intent(this, JogarFacil.class);
-            startActivity(intent);
-            finish();
-        } else if (nivel.equals("medio")) {
-            Intent intent = new Intent(this, JogarMedio.class);
-            startActivity(intent);
-            finish();
-        } else {
-            Intent intent = new Intent(this, JogarDificil.class);
-            startActivity(intent);
-            finish();
-        }
+        Intent intent = new Intent(this, Game.class);
+        intent.putExtra("nivel", nivel);
+        startActivity(intent);
+
     }
 }

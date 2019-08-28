@@ -18,10 +18,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public  void loginFacebook (View view){
-        Intent intent = new Intent(this, LoginFacebook.class);
-        startActivity(intent);
-    }
+
 
     public void sair (View view) {
         this.finish();
