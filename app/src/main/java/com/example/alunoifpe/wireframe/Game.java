@@ -6,12 +6,21 @@ import android.animation.ObjectAnimator;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,11 +28,16 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.AbsListView;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -32,7 +46,11 @@ import java.util.TimerTask;
 
 public class Game extends AppCompatActivity implements View.OnClickListener {
 
+
     private ImageButton oldCardButton;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
     public Estado estado;
     public int resource[] = new int[]{
         R.mipmap.calunga,
@@ -54,6 +72,9 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
     private ArrayList<ImageButton> matriz = new ArrayList<ImageButton>();
     private ArrayList<ImageButton> cards;
 
+    DisplayMetrics metr =  new DisplayMetrics();
+
+    Point size = new Point();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,13 +84,24 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
         Intent intent =  getIntent();
         nivel = intent.getStringExtra("nivel");
 
+        getWindowManager().getDefaultDisplay().getMetrics(metr);
+        Display display = getWindowManager().getDefaultDisplay();
+
+        int width = metr.widthPixels;
+        int height = metr.heightPixels;
+
+        System.out.println("width -> " + width);
+        System.out.println("heigth -> " + height);
+
+        //Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2
+        System.out.println("Build -> " + Build.VERSION.SDK_INT);
+        System.out.println("B -> " + Build.VERSION_CODES.JELLY_BEAN_MR1);
 
         estado = Estado.NAO_VIRADA;
-        TableLayout tabela = findViewById(R.id.tableLayout);
-        tabela.removeAllViews();
+        //TableLayout tabela = findViewById(R.id.tableLayout);
+        //tabela.removeAllViews();
 
         final int NUMBER_CARDS = nivel() * 2;
-
         cards = new ArrayList<>(NUMBER_CARDS);
 
 
@@ -84,22 +116,84 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
 
         Collections.shuffle(cards);
 
+
+        GridLayout grid = new GridLayout(this);
+        grid.setAlignmentMode((Integer) 1 );
+
+        for (int i = 0; i < linhas;i++ ){
+            for (int z = 0 ; z < colunas; z++){
+                GridLayout.Spec linha = GridLayout.spec(i);
+                GridLayout.Spec coluna = GridLayout.spec(z);
+
+                GridLayout.LayoutParams lp = new GridLayout.LayoutParams(linha,coluna);
+
+                ImageView iv = new ImageView(this);
+
+                iv.setImageResource(R.drawable.ic_launcher_background);
+
+                grid.addView(iv,lp);
+            }
+        }
+
+        setContentView(grid);
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycler);
+
+        recyclerView.setHasFixedSize(true);
+
+        layoutManager = new GridLayoutManager(this, colunas);
+
+
+        recyclerView.setLayoutManager(layoutManager);
+
+        String[] myData;
+        //mAdapter = new Adapter();
+
+        recyclerView.setAdapter(mAdapter);
+
+
+        /*
+        LinearLayout linearlayout = new LinearLayout(this);
+        linearlayout.setOrientation(LinearLayout.HORIZONTAL);
+        linearlayout.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
+
         int cardIndex = 0;
+
+        TableLayout table = new TableLayout(Game.this);
+        table.setLayoutParams(new TableLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,AbsListView.LayoutParams.WRAP_CONTENT));
+
         for (int i = 0; i < linhas; i++){
             TableRow row =  new TableRow(Game.this);
+            row.setPadding(1,1,1,1);
+            row.setWeightSum(5f);
+
+            TableLayout.LayoutParams params =  new TableLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT, 1f);
+
             for (int j = 0; j < colunas; j++){
+
+                TableRow.LayoutParams  card = new TableRow.LayoutParams();
                 row.addView(cards.get(cardIndex));
-                row.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1.0f));
+
+
+
+                if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR1 || width < 768){
+                    row.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                }else{
+                    row.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
+                }
+
                 //row.setBackgroundColor(Color.parseColor("#bfbbae"));
                 cardIndex++;
 
             }
-
+            row.setLayoutParams(params);
             tabela.addView(row);
+
         }
 
         tabela.setStretchAllColumns(true);
         tabela.setGravity(Gravity.CENTER);
+        */
 
         Collections.shuffle(cards);
 
@@ -110,9 +204,6 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
                 System.out.println(matriz.get(z) + "  " + z);
             }
             i.setBackgroundColor(Color.WHITE);
-
-
-
         }
 
     }
