@@ -3,24 +3,22 @@ package com.example.alunoifpe.wireframe;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Handler;
+import android.os.Parcelable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,29 +26,24 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.AbsListView;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
 
-import java.sql.SQLOutput;
+import org.json.JSONException;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Game extends AppCompatActivity implements View.OnClickListener {
 
-
     private ImageButton oldCardButton;
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
     public Estado estado;
     public int resource[] = new int[]{
         R.mipmap.calunga,
@@ -65,16 +58,14 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
     private String nivel;
     private int linhas;
     private int colunas;
-
+    private int cont = 0;
     private int color_Green = Color.parseColor("#42f448");
     private int color_Red = Color.parseColor("#f42c22");
 
     private ArrayList<ImageButton> matriz = new ArrayList<ImageButton>();
     private ArrayList<ImageButton> cards;
+    private int seed = 10;
 
-    DisplayMetrics metr =  new DisplayMetrics();
-
-    Point size = new Point();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,116 +75,56 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
         Intent intent =  getIntent();
         nivel = intent.getStringExtra("nivel");
 
-        getWindowManager().getDefaultDisplay().getMetrics(metr);
-        Display display = getWindowManager().getDefaultDisplay();
-
-        int width = metr.widthPixels;
-        int height = metr.heightPixels;
-
-        System.out.println("width -> " + width);
-        System.out.println("heigth -> " + height);
-
-        //Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2
-        System.out.println("Build -> " + Build.VERSION.SDK_INT);
-        System.out.println("B -> " + Build.VERSION_CODES.JELLY_BEAN_MR1);
 
         estado = Estado.NAO_VIRADA;
-        //TableLayout tabela = findViewById(R.id.tableLayout);
-        //tabela.removeAllViews();
+        TableLayout tabela = findViewById(R.id.tableLayout);
+        tabela.removeAllViews();
 
         final int NUMBER_CARDS = nivel() * 2;
+
         cards = new ArrayList<>(NUMBER_CARDS);
 
 
-        for (int i = 0; i < NUMBER_CARDS; i++){
-            ImageButton image = new ImageButton(Game.this);
-            image.setImageResource(R.mipmap.ic_costas);
-            image.setAdjustViewBounds(true);
-            image.setOnClickListener(this);
-            image.setTag(new CardInfo(resource[i % nivel()]));
-            cards.add(image);
+        Readjson rd = new Readjson();
+        try {
+            rd.lerjson(this);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        for(int p = 0; p< 2; p++){
+
+            for (int i = 0; i < nivel(); i++){
+                ImageButton image = new ImageButton(Game.this);
+                image.setImageResource(R.mipmap.ic_costas);
+                image.setAdjustViewBounds(true);
+                image.setOnClickListener(this);
+                System.out.println(rd.getListLocais(i).getName());
+                //System.out.println("i -> " + i);
+                image.setTag(new CardInfo(resource[i % nivel()] , rd.getListLocais(i).getName()));
+
+                cards.add(image);
+            }
+        }
+        System.out.println(cards.size());
 
         Collections.shuffle(cards);
 
-
-        GridLayout grid = new GridLayout(this);
-        grid.setAlignmentMode((Integer) 1 );
-
-        for (int i = 0; i < linhas;i++ ){
-            for (int z = 0 ; z < colunas; z++){
-                GridLayout.Spec linha = GridLayout.spec(i);
-                GridLayout.Spec coluna = GridLayout.spec(z);
-
-                GridLayout.LayoutParams lp = new GridLayout.LayoutParams(linha,coluna);
-
-                ImageView iv = new ImageView(this);
-
-                iv.setImageResource(R.drawable.ic_launcher_background);
-
-                grid.addView(iv,lp);
-            }
-        }
-
-        setContentView(grid);
-
-        recyclerView = (RecyclerView) findViewById(R.id.recycler);
-
-        recyclerView.setHasFixedSize(true);
-
-        layoutManager = new GridLayoutManager(this, colunas);
-
-
-        recyclerView.setLayoutManager(layoutManager);
-
-        String[] myData;
-        //mAdapter = new Adapter();
-
-        recyclerView.setAdapter(mAdapter);
-
-
-        /*
-        LinearLayout linearlayout = new LinearLayout(this);
-        linearlayout.setOrientation(LinearLayout.HORIZONTAL);
-        linearlayout.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
-
         int cardIndex = 0;
-
-        TableLayout table = new TableLayout(Game.this);
-        table.setLayoutParams(new TableLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,AbsListView.LayoutParams.WRAP_CONTENT));
-
         for (int i = 0; i < linhas; i++){
             TableRow row =  new TableRow(Game.this);
-            row.setPadding(1,1,1,1);
-            row.setWeightSum(5f);
-
-            TableLayout.LayoutParams params =  new TableLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT, 1f);
-
             for (int j = 0; j < colunas; j++){
-
-                TableRow.LayoutParams  card = new TableRow.LayoutParams();
                 row.addView(cards.get(cardIndex));
-
-
-
-                if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR1 || width < 768){
-                    row.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                }else{
-                    row.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
-                }
-
+                row.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1.0f));
                 //row.setBackgroundColor(Color.parseColor("#bfbbae"));
                 cardIndex++;
 
             }
-            row.setLayoutParams(params);
-            tabela.addView(row);
 
+            tabela.addView(row);
         }
 
         tabela.setStretchAllColumns(true);
         tabela.setGravity(Gravity.CENTER);
-        */
 
         Collections.shuffle(cards);
 
@@ -204,6 +135,9 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
                 System.out.println(matriz.get(z) + "  " + z);
             }
             i.setBackgroundColor(Color.WHITE);
+
+
+
         }
 
     }
@@ -219,8 +153,6 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-
-
 
 
             /*
@@ -275,11 +207,67 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
                             oldCardButton.setBackgroundColor(color_Green);
                             newCardButton.setBackgroundColor(color_Green);
 
-
-
                             CharSequence text = "Você Acertou!!";
                             int duration = Toast.LENGTH_SHORT;
+                            cont++;
+                            Readjson rj =  new Readjson();
+                            try {
+                                rj.lerjson(this);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            TestFragment mydialog = new TestFragment();
+                            Bundle bundle = new Bundle();
+                            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                            Fragment prev =  getSupportFragmentManager().findFragmentByTag("mydialog");
+                            //ft.replace(R.id.frlayout,mydialog);
+                            //ft.commit();
+                            if(prev != null){
+                                ft.remove(prev);
+                            }
 
+                            ft.addToBackStack(null);
+                            //dialogFragment.show(ftt,"dialog");
+                            for (ImageButton i : cards){
+
+                                if(i == oldCardButton){
+                                    System.out.println("----- bundle -------");
+
+                                    for (Locais z : rj.ListLocais()){
+
+                                        if(i.getTag() == z.getResource()){
+                                            System.out.println("Entrou");
+                                        }
+
+                                    }
+                                    //System.out.println(i);
+                                    Intent intent = new Intent();
+                                    CardInfo cdinfo = (CardInfo) i.getTag();
+                                    System.out.println(cdinfo.getId());
+                                    System.out.println(cdinfo.getName());
+                                    bundle.putString("resource", cdinfo.getName());
+                                    bundle.putInt("nivel", nivel());
+                                    bundle.putInt("seed", seed);
+                                    bundle.putInt("n_cards", nivel()*2);
+
+
+
+                                }
+                            }
+                            mydialog.setArguments(bundle);
+                            mydialog.show(ft,"mydialog");
+
+                            if((cont * 2) == cards.size()){
+                                final Handler handler = new Handler();
+                                final Intent intent = new Intent(this, Acertou.class);
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run(){
+                                        startActivity(intent);
+                                    }
+                                }, 1500);
+
+                            }
                             /*oldCardButton.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {

@@ -1,0 +1,49 @@
+{
+  "places": [
+    {
+      "name": "Calunga",
+      "resource": "calunga",
+      "description": "Eu sou a Calunga Dona Joventina, do antigo Maracatu Nação Estrela Brilhante, fundado no Recife, em 1919.\n Eu ‘nasci’ ou se vocês preferem, fui talhada em madeira nobre por um santeiro muito talentoso, de nome desconhecido (infelizmente), um pouco antes de 1910"
+    },
+    {
+      "name": "Capela Bom Jesus",
+      "resource": "capela_bjesus",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    },
+    {
+      "name": "Capela Rosario",
+      "resource": "capela_rosario",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    },
+    {
+      "name": "Comes e Damiao",
+      "resource": "comes_damiao",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    },
+    {
+      "name": "Coroa do Aviao",
+      "resource": "coroa_aviao",
+      "description": "Coroa do Avião é uma ilhota localizada no município de Igarassu no estado brasileiro de Pernambuco.\n Com aproximadamente 560 metros de extensão por 80 m de largura, é basicamente um banco de areia coberto de vegetação e algumas construções."
+    },
+
+    {
+      "name": "Refugio  das Bromelias",
+      "resource": "refugio",
+      "description": "Como espaço voltado para preservação e estudo das diversas variedades ali existentes, o Refúgio das Bromélias a partir de 2002, começou a participar de diversos eventos, quer a nível local, quer a nível regional, ou ainda nacional e internacional.\n A idéia era a de oportunizar as pessoas a possibilidade de desfrutarem dentro do Sítio Histórico de Igarassu, ou mesmo em feiras e exposições, o conhecimento sobre a importância da preservação das micros fauna e flora."
+    },
+    {
+      "name": "Sitio Marcos",
+      "resource": "sitio_marcos",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    },
+    {
+      "name": "Velho Faceta",
+      "resource": "velho_faceta",
+      "description": "Constantino Leite Moisakis, mais conhecido como Velho Faceta foi um personagem do pastoril profano de Pernambuco. O Pastoril do Velho Faceta também era conhecido por Rosa Branca.\n Faceta preferia se apresentar em pequenos povoados, onde a população sabia participar da brincadeira, com shows interativos. "
+    }
+
+
+  ]
+
+
+}

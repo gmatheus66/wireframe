@@ -4,6 +4,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+
+import org.json.JSONException;
+
+import java.util.Random;
 
 public class MenuNiveis extends AppCompatActivity {
 
@@ -11,6 +16,17 @@ public class MenuNiveis extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.niveis_menu);
+
+        Readjson rd = new Readjson();
+
+        try {
+            rd.lerjson(this);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ImageView img = findViewById(R.id.imageMenu);
+        Random r = new Random();
+        img.setImageResource(getResources().getIdentifier(rd.getListLocais(r.nextInt(8)).getResource(),"mipmap", getPackageName() ));
     }
 
     Intent intent = getIntent();

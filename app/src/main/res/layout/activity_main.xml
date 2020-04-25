@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline17">
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/image"
             android:layout_width="213dp"
             android:layout_height="198dp"
             android:layout_weight="1"
@@ -48,6 +48,12 @@
             android:layout_height="wrap_content"
             android:onClick="jogar"
             android:text="Jogar" />
+        <Button
+            android:id="@+id/botaoSobre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="sobre"
+            android:text="Sobre" />
 
     </LinearLayout>
 
