@@ -12,6 +12,8 @@ Bolsistas: Matheus Gonçalves Silva; Guilherme da Silva Lira
 
 ![](/img/img2.png)
 
+![](/img/img5.png)
+
 ![](/img/img3.png)
 
 ![](/img/img4.png)
